@@ -75,7 +75,7 @@ class AuthServiceProvider extends AbstractServiceProvider
     {
         $container = $this->getLeagueContainer();
 
-        $container->share(AuthFactory::class, function () {
+        $container->addShared(AuthFactory::class, function () {
             $authSession = new AuthSession($this->container->get(Session::class));
             return new AuthFactory($_COOKIE, $authSession, $authSession);
         });
@@ -84,7 +84,7 @@ class AuthServiceProvider extends AbstractServiceProvider
             return new PasswordVerifier('sha256');
         });
 
-        $container->share(Google_Client::class, function () {
+        $container->addShared(Google_Client::class, function () {
             $session = $this->getContainer()->get('session');
             $settingGateway = $this->getContainer()->get(SettingGateway::class);
 
@@ -139,14 +139,14 @@ class AuthServiceProvider extends AbstractServiceProvider
             return $client;
         });
 
-        $container->share(Google_Service_Calendar::class, function () {
+        $container->addShared(Google_Service_Calendar::class, function () {
             $client = $this->getContainer()->get(Google_Client::class);
 
             return $client ? new Google_Service_Calendar($client) : null;
         });
 
 
-        $container->share('Microsoft_Auth', function () {
+        $container->addShared('Microsoft_Auth', function () {
             $session = $this->getContainer()->get('session');
             $settingGateway = $this->getContainer()->get(SettingGateway::class);
 
@@ -201,7 +201,7 @@ class AuthServiceProvider extends AbstractServiceProvider
             return $oauthProvider;
         });
 
-        $container->share('Generic_Auth', function () {
+        $container->addShared('Generic_Auth', function () {
             $session = $this->getContainer()->get('session');
             $settingGateway = $this->getContainer()->get(SettingGateway::class);
 
