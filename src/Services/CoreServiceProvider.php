@@ -184,7 +184,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
         });
 
         $container->addShared('action', function () {
-            $session = $this->getLeagueContainer()->get('session');
+            $session = $this->getContainer()->get('session');
             $data = [
                 'actionName'   => '%'.$session->get('action').'%',
                 'moduleName'   => $session->get('module'),
@@ -204,7 +204,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
         });
 
         $container->addShared('module', function () {
-            $session = $this->getLeagueContainer()->get('session');
+            $session = $this->getContainer()->get('session');
             $data = ['moduleName' => $session->get('module')];
             $sql = "SELECT * FROM gibbonModule WHERE name=:moduleName AND active='Y'";
             $moduleData = $this->getContainer()->get('db')->selectOne($sql, $data);
@@ -212,8 +212,8 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
             return $moduleData ? new Module($moduleData) : null;
         });
 
-        $container->addShared('theme', function () {
-            $session = $this->getLeagueContainer()->get('session');
+        $container->add('theme', function () {
+            $session = $this->getContainer()->get('session');
             if ($session->has('gibbonThemeIDPersonal')) {
                 $data = ['gibbonThemeID' => $session->get('gibbonThemeIDPersonal')];
                 $sql = "SELECT * FROM gibbonTheme WHERE gibbonThemeID=:gibbonThemeID";
@@ -231,7 +231,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
         });
 
         $container->addShared('page', function () use ($container) {
-            $session = $this->getLeagueContainer()->get('session');
+            $session = $this->getContainer()->get('session');
 
             $pageTitle = $session->get('organisationNameShort').' - '.$session->get('systemName');
             if ($session->has('module')) {
