@@ -81,7 +81,7 @@ if ($gibbon->isInstalled()) {
         // Add the database to the container
         $connection2 = $pdo->getConnection();
         $container->add('db', $pdo);
-        $container->share(Gibbon\Contracts\Database\Connection::class, $pdo);
+        $container->addShare(Gibbon\Contracts\Database\Connection::class, $pdo);
 
         // Add a feature flag here to prevent errors before updating
         // TODO: this can likely be removed in v24+
