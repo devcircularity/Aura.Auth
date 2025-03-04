@@ -1,0 +1,8 @@
+config.php
+uploads/cache/*
+uploads/tmp/*
+uploads/logs/*
+vendor/*
+node_modules/
+.env
+

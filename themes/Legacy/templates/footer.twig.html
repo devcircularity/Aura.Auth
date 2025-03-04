@@ -1,0 +1,37 @@
+{#<!--
+Olaji SMS – The Smart School Management System
+Olaji SMS – Empowering schools with efficient learning and administration tools.
+Copyright © 2010, Gibbon Foundation
+Gibbon™, Gibbon Education Ltd. (Hong Kong)
+
+This is a Gibbon template file, written in HTML and Twig syntax.
+For info about editing, see: https://twig.symfony.com/doc/2.x/
+
+
+Dear theme editors,
+
+Gibbon is an open source project, freely available for you to modify and share. 
+However, it's important to keep the information you see here in the footer intact. 
+This is vital legal information for us to have, as it shows who created Gibbon, 
+and that it is released under the GNU GPL.
+
+Please keep the names and copyrights as they're shown here. You are welcome to 
+edit the style of the text to suit your theme.
+
+Thank you,
+The Gibbon Team
+
+-->#}
+
+<span class="inline-block font-bold">
+    {{ __('Powered by') }} <a class="text-{{ themeColour }}-800" target='_blank' href='https://olaji.co'>Olaji SMS</a> {{ versionName }}<br/>
+</span> 
+<br/>
+<span class="text-xs">
+    {{ __('Developed & Customized for Olaji SMS – Empowering Schools with Efficient Learning & Administration Tools') }}<br/>
+    Copyright © <a class="text-{{ themeColour }}-800" target='_blank' href='https://olaji.co'>Olaji Technologies</a> 2024-{{ 'now'|date('Y') }}<br/>
+    {{ __('Licensed under the') }} <a class="text-{{ themeColour }}-800" target='_blank' href='https://www.gnu.org/licenses/gpl.html'>GNU GPL</a> |
+    <a class="text-{{ themeColour }}-800" target='_blank' href='https://olaji.co/about'>{{ __('About Olaji SMS') }}</a> | 
+    <a class="text-{{ themeColour }}-800" target='_blank' href='https://olaji.co/support'>{{ __('Support') }}</a>
+    <br/>
+</span>
