@@ -60,10 +60,10 @@ class AuthServiceProvider extends AbstractServiceProvider
         'Generic_Auth',
     ];
 
-    public function provides(string $id): bool
-{
-    return in_array($id, $this->provides, true);
-}
+    public function provides(string $service): bool
+    {
+        return in_array($service, $this->provides, true);
+    }
 
     /**
      * This is where the magic happens, within the method you can
@@ -73,7 +73,8 @@ class AuthServiceProvider extends AbstractServiceProvider
      */
     public function register(): void
     {
-        $container = $this->getLeagueContainer();
+        $container = $this->getContainer();
+
 
         $container->addShared(AuthFactory::class, function () {
             $authSession = new AuthSession($this->container->get(Session::class));
