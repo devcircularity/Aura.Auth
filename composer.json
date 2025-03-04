@@ -1,6 +1,6 @@
 {
     "name": "devcircularity/aura-auth",
-    "description": "Forked Aura.Auth with fixes",
+    "description": "Fork of Aura Auth",
     "type": "library",
     "license": "BSD-2-Clause",
     "autoload": {
@@ -9,6 +9,6 @@
         }
     },
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2.0"
     }
 }
