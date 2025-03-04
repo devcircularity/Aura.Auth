@@ -57,7 +57,7 @@ class MultiPartForm extends Form
         return $form;
     }
 
-    public function addPage(int $pageNumber, string $pageName, string $pageUrl = null)
+    public function addPage(int $pageNumber, string $pageName, ?string $pageUrl = null)
     {
         $this->pages[$pageNumber] = [
             'name'   => $pageName,

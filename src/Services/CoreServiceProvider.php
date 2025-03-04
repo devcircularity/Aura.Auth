@@ -50,6 +50,13 @@ use League\Container\ServiceProvider\BootableServiceProviderInterface;
  */
 class CoreServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
+
+    public function provides(string $id): bool
+{
+    return in_array($id, $this->provides, true);
+}
+
+
     protected $absolutePath;
 
     public function __construct($absolutePath)
@@ -93,12 +100,13 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
      * from this one, it must be from a bootable service provider like
      * this one, otherwise they will be ignored.
      */
-    public function boot()
+    public function boot(): void
     {
-        $container = $this->getLeagueContainer();
+        $container = $this->getContainer();
 
-        $container->share('config', new Core($this->absolutePath));
-        $container->share('locale', new Locale($this->absolutePath));
+        $container->addShared('config', new Core($this->absolutePath));
+        $container->addShared('locale', new Locale($this->absolutePath));
+
     }
 
     /**
@@ -107,9 +115,9 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
      * that you need to, but remember, every alias registered
      * within this method must be declared in the `$provides` array.
      */
-    public function register()
+    public function register(): void
     {
-        $container = $this->getLeagueContainer();
+        $container = $this->getContainer()        ;
         $absolutePath = $this->absolutePath;
 
         // Logging removed until properly setup & tested
@@ -126,12 +134,12 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
 
         // $pdo->setLogger($container->get('mysql_logger'));
 
-        $container->share('session', function () {
+        $container->addShared('session', function () {
             return SessionFactory::create($this->getContainer());
         });
-
-        $container->share('twig', function () use ($absolutePath) {
-            $session = $this->getLeagueContainer()->get('session');
+        
+        $container->addShared('twig', function () use ($absolutePath) {
+            $session = $this->getContainer()->get('session');
             $loader = new \Twig\Loader\FilesystemLoader($absolutePath.'/resources/templates');
 
             // Add the theme templates folder so it can override core templates
@@ -189,7 +197,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
             return $twig;
         });
 
-        $container->share('action', function () {
+        $container->addShared('action', function () {
             $session = $this->getLeagueContainer()->get('session');
             $data = [
                 'actionName'   => '%'.$session->get('action').'%',
@@ -209,7 +217,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
             return $actionData ? $actionData : null;
         });
 
-        $container->share('module', function () {
+        $container->addShared('module', function () {
             $session = $this->getLeagueContainer()->get('session');
             $data = ['moduleName' => $session->get('module')];
             $sql = "SELECT * FROM gibbonModule WHERE name=:moduleName AND active='Y'";
@@ -218,7 +226,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
             return $moduleData ? new Module($moduleData) : null;
         });
 
-        $container->share('theme', function () {
+        $container->addShared('theme', function () {
             $session = $this->getLeagueContainer()->get('session');
             if ($session->has('gibbonThemeIDPersonal')) {
                 $data = ['gibbonThemeID' => $session->get('gibbonThemeIDPersonal')];
@@ -236,7 +244,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
             return $themeData ? new Theme($themeData) : null;
         });
 
-        $container->share('page', function () use ($container) {
+        $container->addShared('page', function () use ($container) {
             $session = $this->getLeagueContainer()->get('session');
 
             $pageTitle = $session->get('organisationNameShort').' - '.$session->get('systemName');
@@ -282,7 +290,7 @@ class CoreServiceProvider extends AbstractServiceProvider implements BootableSer
         });
 
         $container->add(Validator::class, function () {
-            $session = $this->getLeagueContainer()->get('session');
+            $session = $this->getContainer()->get('session');
             return new Validator($session->get('allowableHTML', ''), $session->get('allowableIframeSources', ''));
         });
 

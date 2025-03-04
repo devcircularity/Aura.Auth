@@ -60,13 +60,18 @@ class AuthServiceProvider extends AbstractServiceProvider
         'Generic_Auth',
     ];
 
+    public function provides(string $id): bool
+{
+    return in_array($id, $this->provides, true);
+}
+
     /**
      * This is where the magic happens, within the method you can
      * access the container and register or retrieve anything
      * that you need to, but remember, every alias registered
      * within this method must be declared in the `$provides` array.
      */
-    public function register()
+    public function register(): void
     {
         $container = $this->getLeagueContainer();
 
